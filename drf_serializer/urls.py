@@ -19,5 +19,7 @@ from app01 import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'books/(?P<pk>\d+)', views.BookView.as_view()),
+    url(r'^books/$', views.BooksView.as_view()),
+    url(r'^books2/$', views.BooksView2.as_view()),
+    url(r'^books/(?P<pk>\d+)$', views.BookView.as_view()),
 ]
