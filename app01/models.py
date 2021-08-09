@@ -7,3 +7,4 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     author = models.CharField(max_length=32)
     publish = models.CharField(max_length=32)
+    
