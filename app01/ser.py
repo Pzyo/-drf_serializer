@@ -64,3 +64,7 @@ class BookModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book  # 对应上models中的Book表模型
         fields = '__all__'  # 表示序列化所有字段
+        # fields = ('name','price')  # 只序列化指定字段
+        # exclude = ('name',)  # 除了name, 其他都序列化
+        read_only_fields = ('price',)
+        extra_kwargs = {'author': {'write_only': True}}

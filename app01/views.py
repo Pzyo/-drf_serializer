@@ -48,8 +48,15 @@ class BooksView(APIView):
 
     def get(self, request):
         response = MyResponse()
+
         books = Book.objects.all()
-        books_ser = BookSerializer(books, many=True) # 序列化多条, 如果序列化一条无需加many参数
+        book = Book.objects.all().first()
+        books_ser = BookSerializer(books, many=True)
+        book_ser = BookSerializer(book)
+
+        print(type(books_ser))  # <class 'rest_framework.serializers.ListSerializer'>
+        print(type(book_ser))   # <class 'app01.ser.BookSerializer'>
+
         response.data = books_ser.data
         return Response(response.get_dict)
 
