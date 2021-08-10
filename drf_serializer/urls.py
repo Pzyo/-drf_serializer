@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^books/(?P<pk>\d+)$', views.BookView.as_view()),
 
     url(r'^app02/', include('app02.urls')),
+    url(r'^app03/', include('app03.urls')),
 ]
