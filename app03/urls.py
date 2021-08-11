@@ -8,18 +8,30 @@ from rest_framework import routers
 # 第二步, 两个类, 实例化得到对象
 # routers.DefaultRouter
 # routers.SimpleRouter
-# router_obj = routers.SimpleRouter()
-router_obj = routers.DefaultRouter()
+router_obj = routers.SimpleRouter()
+# router_obj = routers.DefaultRouter()
 # 第三步, 注册
 # 基本格式: router_obj.register('前缀', '继承自ModelViewSet的视图类', '别名') # ps: 前缀无需加斜杠
 router_obj.register(r'books4', views.Books4View)
+router_obj.register(r'books5', views.Books5View)
 # 第四步
 # router_obj.urls自动生成的路由
 print(router_obj.urls)
 """
+SimpleRouter
 [
     <RegexURLPattern book-list ^books4/$>, 
     <RegexURLPattern book-detail ^books4/(?P<pk>[^/.]+)/$>
+]
+
+DefaultRouter
+[
+    <RegexURLPattern book-list ^books4/$>, 
+    <RegexURLPattern book-list ^books4\.(?P<format>[a-z0-9]+)/?$>, 
+    <RegexURLPattern book-detail ^books4/(?P<pk>[^/.]+)/$>, 
+    <RegexURLPattern book-detail ^books4/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$>, 
+    <RegexURLPattern api-root ^$>, 
+    <RegexURLPattern api-root ^\.(?P<format>[a-z0-9]+)/?$>
 ]
 """
 

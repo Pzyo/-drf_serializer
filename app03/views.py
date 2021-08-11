@@ -155,3 +155,21 @@ class Books4View(ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+from rest_framework.decorators import action
+
+from rest_framework.authentication import BaseAuthentication
+
+class Books5View(ModelViewSet):
+    queryset = Book.objects
+    serializer_class = BookModelSerializer
+
+    # action是装饰器, 第一个参数methods传一个列表, 存放请求方式
+    # 第二个参数detail传布尔类型,
+    # 如果detail是False: ^app03/ ^books5/get_2/$ [name='book-get-2']  # 向该地址发送get请求, 会执行下面的函数
+    # 如果detail是True: ^app03/ ^books5/(?P<pk>[^/.]+)/get_2/$ [name='book-get-2']
+    @action(methods=['get'], detail=True)
+    def get_2(self, request):
+        book = self.get_queryset().all()[:2]
+        ser = self.get_serializer(book, many=True)
+        return Response(ser.data)
