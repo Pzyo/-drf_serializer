@@ -61,7 +61,7 @@ from rest_framework.response import Response
 #             return Response({'status': 200, 'msg': 'ok', 'data': book_ser.data})
 #         else:
 #             return Response({'status':101, 'msg':'校验失败'})
-#
+
 # class BookDetailView(GenericAPIView):
 #     queryset = Book.objects
 #     serializer_class = BookModelSerializer
@@ -132,6 +132,7 @@ class Books2View(ModelViewSet):
     queryset = Book.objects
     serializer_class = BookModelSerializer
 
+from rest_framework.viewsets import ReadOnlyModelViewSet, ViewSet, GenericViewSet
 
 from rest_framework.viewsets import ViewSetMixin
 class Book3View(ViewSetMixin, APIView):  # ViewSetMixin一定要放在APIView前面
@@ -139,3 +140,18 @@ class Book3View(ViewSetMixin, APIView):  # ViewSetMixin一定要放在APIView前
         book_list = Book.objects.all()
         book_ser = BookModelSerializer(book_list, many=True)
         return Response(book_ser.data)
+
+class Books4View(ModelViewSet):
+    queryset = Book.objects
+    serializer_class = BookModelSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset().all()[:3])
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

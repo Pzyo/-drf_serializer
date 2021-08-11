@@ -12,4 +12,6 @@ urlpatterns = [
 
     # ViewSetMixin
     url(r'^books3/$', views.Book3View.as_view(actions={'get': 'get_all_book'})),
+
+    url(r'^books4/$', views.Books4View.as_view(actions={'get': 'list'})),
 ]
