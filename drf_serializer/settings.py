@@ -129,4 +129,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',  # json渲染器
         'rest_framework.renderers.BrowsableAPIRenderer',  # 浏览器API渲染器
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'app03.app_auth.MyAuthentication',
+    ),
 }

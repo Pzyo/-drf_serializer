@@ -47,6 +47,8 @@ urlpatterns = [
     url(r'^books3/$', views.Book3View.as_view(actions={'get': 'get_all_book'})),
 
     # url(r'^books4/$', views.Books4View.as_view(actions={'get': 'list'})),
+
+    url(r'^login/$', views.LoginView.as_view()),
 ]
 
 # 第五步, 加入urlpatterns

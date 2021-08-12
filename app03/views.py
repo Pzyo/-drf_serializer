@@ -4,6 +4,7 @@ from rest_framework.generics import GenericAPIView
 from app03.models import Book
 from app03.ser import BookModelSerializer
 from rest_framework.response import Response
+from rest_framework.request import Request
 
 
 # 基于APIView写的
@@ -160,14 +161,46 @@ from rest_framework.decorators import action
 
 from rest_framework.authentication import BaseAuthentication
 
+# class Books5View(ModelViewSet):
+#     queryset = Book.objects
+#     serializer_class = BookModelSerializer
+#
+#     # action是装饰器, 第一个参数methods传一个列表, 存放请求方式
+#     # 第二个参数detail传布尔类型,
+#     # 如果detail是False: ^app03/ ^books5/get_2/$ [name='book-get-2']  # 向该地址发送get请求, 会执行下面的函数
+#     # 如果detail是True: ^app03/ ^books5/(?P<pk>[^/.]+)/get_2/$ [name='book-get-2']
+#     @action(methods=['get'], detail=True)
+#     def get_2(self, request):
+#         book = self.get_queryset().all()[:2]
+#         ser = self.get_serializer(book, many=True)
+#         return Response(ser.data)
+
+from app03 import models
+import uuid
+class LoginView(APIView):
+    authentication_classes = []
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = models.User.objects.filter(username=username, password=password).first()
+        if user:
+            # 登录成功, 生成随机字符串
+            token = uuid.uuid4()
+            # 存到Usertoken表中
+            # models.UserToken.objects.create(token=token, user=user)  # 每次登录都会记录一次, 效果不好, 应该是更新原token
+            # update_or_create有就更新, 没有就新增
+            models.UserToken.objects.update_or_create(defaults={'token':token}, user=user)
+            return Response({'status':100, 'msg':'登录成功', 'token':token})
+        else:
+            return Response({'status': 101, 'msg': '用户名或密码错误'})
+
+from app03.app_auth import MyAuthentication
 class Books5View(ModelViewSet):
     queryset = Book.objects
     serializer_class = BookModelSerializer
+    authentication_classes = [MyAuthentication]
 
-    # action是装饰器, 第一个参数methods传一个列表, 存放请求方式
-    # 第二个参数detail传布尔类型,
-    # 如果detail是False: ^app03/ ^books5/get_2/$ [name='book-get-2']  # 向该地址发送get请求, 会执行下面的函数
-    # 如果detail是True: ^app03/ ^books5/(?P<pk>[^/.]+)/get_2/$ [name='book-get-2']
     @action(methods=['get'], detail=True)
     def get_2(self, request):
         book = self.get_queryset().all()[:2]
