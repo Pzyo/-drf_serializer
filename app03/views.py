@@ -195,14 +195,27 @@ class LoginView(APIView):
         else:
             return Response({'status': 101, 'msg': '用户名或密码错误'})
 
-from app03.app_auth import MyAuthentication
+from app03.app_auth import MyAuthentication, UserPermisson
 class Books5View(ModelViewSet):
     queryset = Book.objects
     serializer_class = BookModelSerializer
+    # 先用认证类
     authentication_classes = [MyAuthentication]
+    # 再用权限类
+    permission_classes = [UserPermisson]
 
     @action(methods=['get'], detail=True)
     def get_2(self, request):
         book = self.get_queryset().all()[:2]
         ser = self.get_serializer(book, many=True)
         return Response(ser.data)
+
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAdminUser
+class TestView(APIView):
+    # 说明, 一旦使用内置权限, 最好认证类、权限类都是使用rest框架内置的, 建议不要混着用
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        return Response('测试, 超级用户可以看')
