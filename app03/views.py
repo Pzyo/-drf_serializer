@@ -212,10 +212,14 @@ class Books5View(ModelViewSet):
 
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAdminUser
+from rest_framework.throttling import AnonRateThrottle
 class TestView(APIView):
     # 说明, 一旦使用内置权限, 最好认证类、权限类都是使用rest框架内置的, 建议不要混着用
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAdminUser]
+    throttle_classes = [AnonRateThrottle]
 
     def get(self, request):
         return Response('测试, 超级用户可以看')
+
+from rest_framework.throttling import BaseThrottle, AnonRateThrottle, ScopedRateThrottle, SimpleRateThrottle, UserRateThrottle

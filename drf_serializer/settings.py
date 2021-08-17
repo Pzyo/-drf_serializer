@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app01.apps.App01Config',
     'rest_framework',
+    'django_filters',
     'app02.apps.App02Config',
     'app03.apps.App03Config',
 ]
@@ -131,5 +132,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'app03.app_auth.MyAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
     ),
 }
