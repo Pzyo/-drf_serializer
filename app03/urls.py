@@ -51,6 +51,8 @@ urlpatterns = [
     url(r'^login/$', views.LoginView.as_view()),
 
     url(r'^test/$', views.TestView.as_view()),
+    url(r'^books6/$', views.Book6View.as_view()),
+    url(r'^books7/$', views.Book7View.as_view()),
 ]
 
 # 第五步, 加入urlpatterns

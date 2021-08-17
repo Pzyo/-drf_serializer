@@ -222,4 +222,44 @@ class TestView(APIView):
     def get(self, request):
         return Response('测试, 超级用户可以看')
 
-from rest_framework.throttling import BaseThrottle, AnonRateThrottle, ScopedRateThrottle, SimpleRateThrottle, UserRateThrottle
+# 过滤组件
+from rest_framework.generics import ListAPIView
+from app03.models import Book
+from app03.ser import BookModelSerializer
+class Book6View(ListAPIView):
+    queryset = Book.objects
+    serializer_class = BookModelSerializer
+    filter_fields = ['name','price']
+
+# 排序组件
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+class Book7View(ListAPIView):
+    queryset = Book.objects
+    serializer_class = BookModelSerializer
+    # 先过滤, 再排序
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_fields = ['name','price']
+    # 按照id跟价格排序
+    ordering_fields = ['id', 'price']
+
+# 全局异常处理
+# drf的异常处理, 默认处理404以及权限等问题, 其他交回给django处理
+from rest_framework.views import exception_handler
+
+# 自定义异常处理
+from rest_framework import status
+def my_exception_handler(exc, context):
+    response=exception_handler(exc, context)
+    # 两种情况, 一个是None, drf没有处理
+    # response对象, drf处理, 但是处理的不合符要求
+
+    if not response:
+        # 更细致的捕获异常
+        if isinstance(exc, ZeroDivisionError):
+            return Response(data={'status': 777, 'msg': str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(data={'status':999, 'msg':str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        # return response
+        return Response(data={'status':888, 'msg':response.data.get('detail')}, status=status.HTTP_400_BAD_REQUEST)
