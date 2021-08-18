@@ -263,3 +263,9 @@ def my_exception_handler(exc, context):
     else:
         # return response
         return Response(data={'status':888, 'msg':response.data.get('detail')}, status=status.HTTP_400_BAD_REQUEST)
+
+
+from utils.apiresponse import APIResponse
+class Test2View(APIView):
+    def get(self, request):
+        return APIResponse(data={'name':'pzyo'}, token='abcdefg')
