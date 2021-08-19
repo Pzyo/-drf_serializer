@@ -269,3 +269,38 @@ from utils.apiresponse import APIResponse
 class Test2View(APIView):
     def get(self, request):
         return APIResponse(data={'name':'pzyo'}, token='abcdefg')
+
+
+from rest_framework.pagination import PageNumberPagination,LimitOffsetPagination,CursorPagination
+
+# 基本分页
+class MyPageNumberPagination(PageNumberPagination):
+    # 每页条数
+    page_size = 3
+    # 分页参数
+    page_query_param = 'p'
+    # 每页最大显示的关键字
+    page_size_query_param = 'size'
+    # 每页最大显示的数量
+    max_page_size = 4
+
+# 偏移分页
+class MyLimitOffsetPagination(LimitOffsetPagination):
+    default_limit = 3
+    limit_query_param = 'limit'  # 显示数量
+    offset_query_param = 'offset'  # 偏移位置
+    max_limit = 5
+
+# 游标分页
+class MyCursorPagination(CursorPagination):
+    page_size = 2  # 每页查询条数
+    cursor_query_param = 'cursor'  # 每页查询的关键字
+    ordering = '-id' # 排序字段
+
+class BookListAPIView(ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookModelSerializer
+    # 配置分页
+    # pagination_class = MyPageNumberPagination
+    # pagination_class = MyLimitOffsetPagination
+    pagination_class = MyCursorPagination

@@ -137,4 +137,5 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
     'EXCEPTION_HANDLER': 'app03.views.my_exception_handler',
+    # 'PAGE_SIZE': 2,
 }
