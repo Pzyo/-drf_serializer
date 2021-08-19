@@ -138,4 +138,7 @@ REST_FRAMEWORK = {
     ),
     'EXCEPTION_HANDLER': 'app03.views.my_exception_handler',
     # 'PAGE_SIZE': 2,
+    'DEFAULT_THROTTLE_RATES': {
+        'luffy': '3/m',
+    }
 }

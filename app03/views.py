@@ -305,8 +305,11 @@ class MyCursorPagination(CursorPagination):
 #     # pagination_class = MyLimitOffsetPagination
 #     pagination_class = MyCursorPagination
 
+from utils.throttling import MyThrottling
+
 # 如果使用APIView
 class BookListAPIView(APIView):
+    throttle_classes = [MyThrottling]
     def get(self, request, *args, **kwargs):
         book_list = models.Book.objects.all()
         # 实例化得到分页器对象
