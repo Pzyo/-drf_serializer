@@ -297,10 +297,23 @@ class MyCursorPagination(CursorPagination):
     cursor_query_param = 'cursor'  # 每页查询的关键字
     ordering = '-id' # 排序字段
 
-class BookListAPIView(ListAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookModelSerializer
-    # 配置分页
-    # pagination_class = MyPageNumberPagination
-    # pagination_class = MyLimitOffsetPagination
-    pagination_class = MyCursorPagination
+# class BookListAPIView(ListAPIView):
+#     queryset = Book.objects.all()
+#     serializer_class = BookModelSerializer
+#     # 配置分页
+#     # pagination_class = MyPageNumberPagination
+#     # pagination_class = MyLimitOffsetPagination
+#     pagination_class = MyCursorPagination
+
+# 如果使用APIView
+class BookListAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        book_list = models.Book.objects.all()
+        # 实例化得到分页器对象
+        page_cursor = MyPageNumberPagination()
+        book_list = page_cursor.paginate_queryset(book_list, request, view=self)
+        next_url = page_cursor.get_next_link()
+        pr_url = page_cursor.get_previous_link()
+        book_ser = BookModelSerializer(instance=book_list, many=True)
+        return APIResponse(data=book_ser.data, next_url=next_url, pr_url=pr_url)
+
