@@ -320,3 +320,12 @@ class BookListAPIView(APIView):
         book_ser = BookModelSerializer(instance=book_list, many=True)
         return APIResponse(data=book_ser.data, next_url=next_url, pr_url=pr_url)
 
+from utils.throttling import IPThrottle
+class Books9View(ListAPIView):
+    queryset = Book.objects
+    serializer_class = BookModelSerializer
+    throttle_classes = [IPThrottle]
+
+
+
+

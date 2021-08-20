@@ -140,5 +140,5 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 2,
     'DEFAULT_THROTTLE_RATES': {
         'luffy': '3/m',
-    }
+    },
 }
