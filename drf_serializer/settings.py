@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_filters',
     'app02.apps.App02Config',
     'app03.apps.App03Config',
+    'app04.apps.App04Config',
     'rest_framework',
     'rest_framework_swagger',
 ]

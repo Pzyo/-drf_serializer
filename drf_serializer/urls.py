@@ -34,6 +34,7 @@ urlpatterns = [
 
     url(r'^app02/', include('app02.urls')),
     url(r'^app03/', include('app03.urls')),
+    url(r'^app04/', include('app04.urls')),
 
     url(r'^docs/', include_docs_urls(title='文档'))
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
