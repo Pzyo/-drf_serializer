@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app01.apps.App01Config',
-    'rest_framework',
+
     'django_filters',
     'app02.apps.App02Config',
     'app03.apps.App03Config',
+    'rest_framework',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -126,13 +128,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [  # 默认响应渲染类
-        'rest_framework.renderers.JSONRenderer',  # json渲染器
-        'rest_framework.renderers.BrowsableAPIRenderer',  # 浏览器API渲染器
-    ],
+    # 'DEFAULT_RENDERER_CLASSES': [  # 默认响应渲染类
+    #     'rest_framework.renderers.JSONRenderer',  # json渲染器
+    #     'rest_framework.renderers.BrowsableAPIRenderer',  # 浏览器API渲染器
+    # ],
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
     #     'app03.app_auth.MyAuthentication',
     # ),
+    # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),

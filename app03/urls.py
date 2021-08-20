@@ -58,6 +58,7 @@ urlpatterns = [
 
     url(r'^books8/$', views.BookListAPIView.as_view()),
     url(r'^books9/$', views.Books9View.as_view()),
+
 ]
 
 # 第五步, 加入urlpatterns

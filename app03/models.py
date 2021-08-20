@@ -1,7 +1,7 @@
 from django.db import models
 
 class Book(models.Model):
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, verbose_name='书名', help_text='书名')
     price = models.DecimalField(max_digits=5, decimal_places=2)
     publish = models.CharField(max_length=32)
 

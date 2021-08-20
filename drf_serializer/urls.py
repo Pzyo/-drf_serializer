@@ -17,7 +17,16 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from app01 import views
 
+from rest_framework.documentation import include_docs_urls
+
+from utils.docs import SwaggerSchemaView
+
+# from rest_framework.schemas import get_schema_view
+# from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
+# schema_view = get_schema_view(title='API文档', renderer_classes=[SwaggerUIRenderer,OpenAPIRenderer])
+
 urlpatterns = [
+    # url(r'^docs/', schema_view),
     url(r'^admin/', admin.site.urls),
     url(r'^books/$', views.BooksView.as_view()),
     url(r'^books2/$', views.BooksView2.as_view()),
@@ -25,4 +34,9 @@ urlpatterns = [
 
     url(r'^app02/', include('app02.urls')),
     url(r'^app03/', include('app03.urls')),
+
+    url(r'^docs/', include_docs_urls(title='文档'))
+    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # url(r'^docs/', SwaggerSchemaView.as_view(), name='apiDocs'),
+
 ]

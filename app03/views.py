@@ -118,6 +118,12 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 
 # class BooksView(ListAPIView, CreateAPIView):
 class BooksView(ListCreateAPIView):
+    """
+    get:
+    返回所有图书信息
+    post:
+    新增图书
+    """
     queryset = Book.objects
     serializer_class = BookModelSerializer
 
@@ -130,6 +136,13 @@ class BookDetailView(RetrieveUpdateDestroyAPIView):
 
 from rest_framework.viewsets import ModelViewSet
 class Books2View(ModelViewSet):
+    """
+    list:
+    返回所有图书2
+
+    create:
+    新增图书2
+    """
     queryset = Book.objects
     serializer_class = BookModelSerializer
 
@@ -321,7 +334,11 @@ class BookListAPIView(APIView):
         return APIResponse(data=book_ser.data, next_url=next_url, pr_url=pr_url)
 
 from utils.throttling import IPThrottle
+from utils.docs import MySchemaGenerator
 class Books9View(ListAPIView):
+    """
+    返回所有图书的信息
+    """
     queryset = Book.objects
     serializer_class = BookModelSerializer
     throttle_classes = [IPThrottle]
